@@ -4,30 +4,54 @@ function startGame() {
 }
 function updateGameArea() {
     myGameArea.wallpaper(wallpaper);
-    myGameArea.structure(structure1);
-    myGameArea.structure(structure2);
+   
+    
+    if (redsquare.x<wallpaper.x+v && redsquare.speedX<0){
+        vLeft=0
+        redsquare.speedX=0
+    }
+    if (redsquare.x>wallpaper.x+1500-redsquare.width-v && redsquare.speedX>0){
+        vRight=0
+        redsquare.speedX=0
+          
+    }
+    if (redsquare.y>wallpaper.y+900-redsquare.width-v && redsquare.speedY>0){
+        gravity=0
+        redsquare.speedY=0
+        redsquare.y=850
+        
+    }
+    if (redsquare.y<wallpaper.y+900-redsquare.width-v ){
+        redsquare.speedY+=1;
+        
+        jump = 0
+        
+    }
+    
+    else{
+        vLeft=v
+        vRight=v
+        gravity=3
+        jump=10
+    }
+    
     redsquare.x+=redsquare.speedX;
     redsquare.y+=redsquare.speedY;
-    
     myGameArea.draw(redsquare);
-    
-    if (redsquare.x-10<structure1.x){
-        
-        vLeft=0
-        console.log("stop")
-    }
-
-
-    
 }
-  
+let v=5
+let vLeft=v
+let vDown=v
+let vRight=v
+let jump=10
+let gravity=3
   
 
 var myGameArea = {  
     canvas : document.createElement("canvas"),
     start : function() {
-        this.canvas.width = 600;
-        this.canvas.height = 600;
+        this.canvas.width = 1500;
+        this.canvas.height = 900;
         this.context = this.canvas.getContext("2d");
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         this.interval = setInterval(updateGameArea, 30);
@@ -51,51 +75,36 @@ var redsquare={
     width:50,
     height:50,
     x:300,
-    y:500,
+    y:400,
     color: "green",
     speedX : 0,
     speedY : 0
 }
 var wallpaper={
-    width:1200,
-    height:4800,
+    width:1500,
+    height:900,
     x:0,
     y:0,
     color: "#f1f1f1"
 }
-var structure1={
-    width:10,
-    height:600,
-    x:20,
-    y:0,
-    color: "black"
-}
-var structure2={
-    width:10,
-    height:600,
-    x:580,
-    y:0,
-    color: "black"
-}
+
+
 //movimenti
 
-let v=5
-let vLeft=v
+
 
 document.addEventListener("keydown",(event)=>{
     if (event.key=="a"){
         redsquare.speedX = -vLeft;
-        console.log(redsquare)
+        
     }
     if (event.key=="d"){
-        redsquare.speedX = v;
+        redsquare.speedX = vRight;
     }
-    if (event.key=="w"){
-        redsquare.speedY = -v;
+    if (event.key==" "){
+        redsquare.speedY = -jump;
     }
-    if (event.key=="s"){
-        redsquare.speedY = v;
-    }
+   
 })
 document.addEventListener("keyup",(event)=>{
     if (event.key=="a"){
@@ -105,25 +114,8 @@ document.addEventListener("keyup",(event)=>{
     if (event.key=="d"){
         redsquare.speedX = 0;
     }
-    if (event.key=="w"){
-        redsquare.speedY = 0;
+    if (event.key==" "){
+        redsquare.speedY = jump;
     }
-    if (event.key=="s"){
-        redsquare.speedY = 0;
-    }
+   
 })
-
-
-
-  function clearmove() {
-        redsquare.speedX =0; 
-        redsquare.speedY =0; 
-}
-
-
-
-
-  
-  
-
-
